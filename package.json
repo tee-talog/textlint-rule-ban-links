@@ -1,0 +1,40 @@
+{
+  "version": "1.0.0",
+  "keywords": [
+    "textlintrule"
+  ],
+  "main": "lib/index.js",
+  "files": [
+    "lib/",
+    "src/"
+  ],
+  "scripts": {
+    "test": "textlint-scripts test",
+    "build": "textlint-scripts build",
+    "prepublish": "npm run --if-present build",
+    "watch": "textlint-scripts build --watch"
+  },
+  "devDependencies": {
+    "@textlint/types": "^12.2.3",
+    "@types/node": "^18.11.9",
+    "textlint-scripts": "^12.2.3",
+    "textlint-tester": "^12.2.3",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.3"
+  },
+  "name": "textlint-rule-ban-links",
+  "description": "This rule bans links with URLs of the specified patterns.",
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tee-talog/textlint-rule-ban-links.git"
+  },
+  "author": "tee-talog",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tee-talog/textlint-rule-ban-links/issues"
+  },
+  "homepage": "https://github.com/tee-talog/textlint-rule-ban-links#readme"
+}
