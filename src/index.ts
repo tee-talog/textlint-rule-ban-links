@@ -25,6 +25,13 @@ const report: TextlintRuleModule<Options> = (context, options = {}) => {
         report(node, ruleError)
       }
     },
+
+    [Syntax.Link](node) {
+      const ruleError = new RuleError('Found link node.', {
+        padding: locator.range(node.range)
+      })
+      report(node, ruleError)
+    }
   }
 }
 

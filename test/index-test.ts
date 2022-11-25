@@ -3,6 +3,22 @@ import rule from '../src/index'
 
 const tester = new TextLintTester()
 // ruleName, rule, { valid, invalid }
+
+tester.run('ban-links', rule, {
+  valid: ['plain text'],
+  invalid: [
+    {
+      text: '[text](https://example.com)',
+      errors: [
+        {
+          message: 'Found link node.',
+          range: [0, 27],
+        },
+      ],
+    },
+  ],
+})
+
 tester.run('rule', rule, {
   valid: [
     // no problem
