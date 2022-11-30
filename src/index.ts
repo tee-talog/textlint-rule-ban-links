@@ -1,40 +1,23 @@
 import { TextlintRuleModule } from '@textlint/types'
 
 export interface Options {
-  // If node's text includes allowed text, does not report.
-  allows?: string[]
+  patterns?: (string | RegExp)[]
 }
 
 const report: TextlintRuleModule<Options> = (context, options = {}) => {
-  const { Syntax, RuleError, report, getSource, locator } = context
-  const allows = options.allows ?? []
-  return {
-    [Syntax.Str](node) {
-      // "Str" node
-      const text = getSource(node) // Get text
-      if (allows.some((allow) => text.includes(allow))) {
-        return
-      }
-      const matches = text.matchAll(/bugs/g)
-      for (const match of matches) {
-        const index = match.index ?? 0
-        const matchRange = [index, index + match[0].length] as const
-        const ruleError = new RuleError('Found bugs.', {
-          padding: locator.range(matchRange),
-        })
-        report(node, ruleError)
-      }
-    },
+  const { Syntax, RuleError, report, locator } = context
+  const patterns = options.patterns ?? []
+  const regexps = patterns.map((p) => new RegExp(p))
 
+  return {
     [Syntax.Link](node) {
-      // http://example.com が来たらエラーとする
-      if (new RegExp('^http://example.com').test(node.url)) {
-        const ruleError = new RuleError('Found link node.', {
+      // When node's URLs match the patterns specified in the options, reports an Error.
+      if (regexps.some((r) => r.test(node.url))) {
+        const ruleError = new RuleError('Match an pattern banned URLs.', {
           padding: locator.range(node.range),
         })
         report(node, ruleError)
       }
-      // TODO もし許可されていないリンクが来たら
     },
   }
 }
