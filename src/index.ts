@@ -27,11 +27,15 @@ const report: TextlintRuleModule<Options> = (context, options = {}) => {
     },
 
     [Syntax.Link](node) {
-      const ruleError = new RuleError('Found link node.', {
-        padding: locator.range(node.range)
-      })
-      report(node, ruleError)
-    }
+      // http://example.com が来たらエラーとする
+      if (new RegExp('^http://example.com').test(node.url)) {
+        const ruleError = new RuleError('Found link node.', {
+          padding: locator.range(node.range),
+        })
+        report(node, ruleError)
+      }
+      // TODO もし許可されていないリンクが来たら
+    },
   }
 }
 

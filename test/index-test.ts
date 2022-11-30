@@ -5,14 +5,32 @@ const tester = new TextLintTester()
 // ruleName, rule, { valid, invalid }
 
 tester.run('ban-links', rule, {
-  valid: ['plain text'],
+  valid: ['plain text', '[text](https://example.com)'],
   invalid: [
     {
-      text: '[text](https://example.com)',
+      text: '[text](http://example.com)',
+      errors: [
+        {
+          message: 'Found link node.',
+          range: [0, 26],
+        },
+      ],
+    },
+    {
+      text: '[text](http://example.com/)',
       errors: [
         {
           message: 'Found link node.',
           range: [0, 27],
+        },
+      ],
+    },
+    {
+      text: '[text](http://example.com/path/to/resource)',
+      errors: [
+        {
+          message: 'Found link node.',
+          range: [0, 43],
         },
       ],
     },
