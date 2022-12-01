@@ -22,7 +22,7 @@ tester.run('ban-links', rule, {
       },
       errors: [
         {
-          message: 'Match an pattern banned URLs.',
+          message: 'Match a pattern banned URLs.',
           range: [0, 36],
         },
       ],
@@ -35,7 +35,7 @@ tester.run('ban-links', rule, {
       },
       errors: [
         {
-          message: 'Match an pattern banned URLs.',
+          message: 'Match a pattern banned URLs.',
           range: [20, 48],
         },
       ],
@@ -47,7 +47,7 @@ tester.run('ban-links', rule, {
       },
       errors: [
         {
-          message: 'Match an pattern banned URLs.',
+          message: 'Match a pattern banned URLs.',
           range: [0, 35],
         },
       ],
