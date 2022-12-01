@@ -2,42 +2,53 @@ import TextLintTester from 'textlint-tester'
 import rule from '../src/index'
 
 const tester = new TextLintTester()
-// ruleName, rule, { valid, invalid }
-tester.run('rule', rule, {
+
+tester.run('ban-links', rule, {
   valid: [
-    // no problem
-    'text',
+    'plain text',
+    '[no patterns](http://example.com)',
     {
-      text: 'It is bugs, but it should be ignored',
+      text: '[no match patterns](https://example.com)',
       options: {
-        allows: ['it should be ignored'],
+        patterns: ['^http://', '^file:', '^C:'],
       },
     },
   ],
   invalid: [
-    // single match
     {
-      text: 'It is bugs.',
+      text: '[match patterns](http://example.com)',
+      options: {
+        patterns: ['^http://'],
+      },
       errors: [
         {
-          message: 'Found bugs.',
-          range: [6, 10],
+          message: 'Match a pattern banned URLs.',
+          range: [0, 36],
         },
       ],
     },
-    // multiple match
     {
-      text: `It has many bugs.
-
-One more bugs`,
+      text: `multiline
+[match](http://example.com/)`,
+      options: {
+        patterns: ['^http://'],
+      },
       errors: [
         {
-          message: 'Found bugs.',
-          range: [12, 16],
+          message: 'Match a pattern banned URLs.',
+          range: [20, 48],
         },
+      ],
+    },
+    {
+      text: '[windows like file path](C:\\\\Users)',
+      options: {
+        patterns: ['^http://', '^file:', '^C:'],
+      },
+      errors: [
         {
-          message: 'Found bugs.',
-          range: [28, 32],
+          message: 'Match a pattern banned URLs.',
+          range: [0, 35],
         },
       ],
     },
