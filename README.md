@@ -12,10 +12,13 @@ Install with [npm](https://www.npmjs.com/):
 
 Via `.textlintrc`(Recommended)
 
-```json
+```js
 {
     "rules": {
-        "ban-links": true
+        "ban-links": {
+            // configure as you like
+            patterns: ["^https?://localhost", "^C:", "/$"]
+        }
     }
 }
 ```
