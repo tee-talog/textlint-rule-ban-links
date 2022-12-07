@@ -29,14 +29,16 @@ tester.run('ban-links', rule, {
     },
     {
       text: `multiline
-[match](http://example.com/)`,
+[match](http://example.com/)
+
+multiline`,
       options: {
         patterns: ['^http://'],
       },
       errors: [
         {
           message: 'Match a pattern banned URLs.',
-          range: [20, 48],
+          range: [10, 38],
         },
       ],
     },

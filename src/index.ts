@@ -5,7 +5,7 @@ export interface Options {
 }
 
 const report: TextlintRuleModule<Options> = (context, options = {}) => {
-  const { Syntax, RuleError, report, locator } = context
+  const { Syntax, RuleError, report } = context
   const patterns = options.patterns ?? []
   const regexps = patterns.map((p) => new RegExp(p))
 
@@ -13,9 +13,7 @@ const report: TextlintRuleModule<Options> = (context, options = {}) => {
     [Syntax.Link](node) {
       // When node's URLs match the patterns specified in the options, reports an Error.
       if (regexps.some((r) => r.test(node.url))) {
-        const ruleError = new RuleError('Match a pattern banned URLs.', {
-          padding: locator.range(node.range),
-        })
+        const ruleError = new RuleError('Match a pattern banned URLs.')
         report(node, ruleError)
       }
     },
